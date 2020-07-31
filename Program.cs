@@ -16,7 +16,13 @@ namespace SortingVisualizer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            //Need to get the instance of the form so I can pass it to another class
+            Form1 main = new Form1();
+
+            Application.Run(main);
+
         }
+
     }
 }

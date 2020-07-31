@@ -16,5 +16,20 @@ namespace SortingVisualizer
         {
             InitializeComponent();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            //Let's reorder the array
+            Form1.array = SortingAlgorithms.BubbleSort(array);
+
+            //Redraw panel
+            this.Refresh();
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            DrawingAlgorithms.DrawArray(sender, e, array);
+        }
     }
 }
