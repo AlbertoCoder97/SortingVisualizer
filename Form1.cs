@@ -29,7 +29,7 @@ namespace SortingVisualizer
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            DrawingAlgorithms.DrawArray(sender, e, array);
+            DrawingAlgorithms.BubbleSortAnimation(sender, e, array);
         }
     }
 }

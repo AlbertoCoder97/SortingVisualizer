@@ -2,6 +2,7 @@
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Collections;
 
 namespace SortingVisualizer
 {
@@ -11,7 +12,10 @@ namespace SortingVisualizer
         public static int x = 10;
         public static int y = 10;
 
-        public static void DrawArray(object sender, PaintEventArgs e, int[] array)
+        public static ArrayList rectangles = new ArrayList();
+
+        //Animation for BubbleSort
+        public static void BubbleSortAnimation(object sender, PaintEventArgs e, int[] array)
         {
             var p = sender as Panel;
 

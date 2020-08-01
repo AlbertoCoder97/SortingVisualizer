@@ -30,10 +30,6 @@ namespace SortingVisualizer
         /// </summary>
         private void InitializeComponent()
         {
-
-            array = new int[10];
-            InitializeArray(array);
-
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -52,7 +48,7 @@ namespace SortingVisualizer
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
-            this.button1.Text = "Draw!";
+            this.button1.Text = "BubbleSort";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -71,7 +67,7 @@ namespace SortingVisualizer
 
         }
 
-        private void InitializeArray(int[] array)
+        public static void InitializeArray(int[] array)
         {
             //Let's populate the array with random elements
             Random random = new Random();
