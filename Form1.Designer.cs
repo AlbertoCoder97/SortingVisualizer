@@ -41,6 +41,7 @@ namespace SortingVisualizer
             this.panel1.Size = new System.Drawing.Size(700, 354);
             this.panel1.TabIndex = 0;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
+            
             // 
             // button1
             // 
@@ -65,6 +66,8 @@ namespace SortingVisualizer
             this.Text = "Sorting Visualizer";
             this.ResumeLayout(false);
 
+            
+
         }
 
         public static void InitializeArray(int[] array)
@@ -83,7 +86,11 @@ namespace SortingVisualizer
 
         public static int[] getArray() { return array; }
 
-        public static int[] array;
+        public static int[] array = new int[20];
+
+        public static bool bubble = false;
+        public static bool insertion = false;
+        public static bool initialized = false;
 
 
         #endregion

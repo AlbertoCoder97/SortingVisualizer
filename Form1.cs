@@ -21,15 +21,26 @@ namespace SortingVisualizer
         {
 
             //Let's reorder the array
-            Form1.array = SortingAlgorithms.BubbleSort(array);
-
+            bubble = true;
             //Redraw panel
             this.Refresh();
+            bubble = false;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            DrawingAlgorithms.BubbleSortAnimation(sender, e, array);
+            //I have to initialize the array here cause otherwise I cannot edit the GUI.
+            if (!initialized)
+            {
+                InitializeArray(array);
+                initialized = true;
+            }
+            if(bubble)
+                DrawingAlgorithms.BubbleSortAnimation(sender, e, array);
+            else if(insertion)
+                DrawingAlgorithms.InsertionSortAnimation(sender, e, array);
+            else
+                DrawingAlgorithms.ArrayInitializer(sender, e, array);
         }
     }
 }

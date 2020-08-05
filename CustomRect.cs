@@ -15,18 +15,18 @@ namespace SortingVisualizer
         public int width;
         public int height;
 
-        public Color color;
+        public SolidBrush brush;
 
-        public CustomRect(int x, int y, int width, int height, Color color)
+        public CustomRect(int x, int y, int width, int height, SolidBrush brush)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
 
-            this.color = color;
+            this.brush = brush;
         }
 
-        public void setColor(Color newColor) { this.color = newColor; }
+        public void setBrush(SolidBrush newBrush) { this.brush = newBrush; }
     }
 }

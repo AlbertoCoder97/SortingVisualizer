@@ -8,6 +8,8 @@ namespace SortingVisualizer
 {
     static class Program
     {
+
+        public static Form1 main;
         /// <summary>
         /// Punto di ingresso principale dell'applicazione.
         /// </summary>
@@ -18,7 +20,7 @@ namespace SortingVisualizer
             Application.SetCompatibleTextRenderingDefault(false);
 
             //Need to get the instance of the form so I can pass it to another class
-            Form1 main = new Form1();
+            main = new Form1();
 
             Application.Run(main);
 
