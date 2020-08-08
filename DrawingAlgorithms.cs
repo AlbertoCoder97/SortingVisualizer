@@ -26,13 +26,10 @@ namespace SortingVisualizer
         //Animation for BubbleSort
         public static void BubbleSortAnimation(object sender, PaintEventArgs e, int[] array)
         {
-
-            var p = sender as Panel;
-
             SolidBrush brush = new SolidBrush(Color.Black);
-
             Graphics g = e.Graphics;
 
+            //Graphical values for distance and X position
             x = (100 / Form1.SIZE) * 2;
             distance = x * 2;
 
@@ -45,7 +42,6 @@ namespace SortingVisualizer
 
             for (int i = 0; i < sorted.Length; i++)
             {
-                //g.Clear(Color.White);
 
                 for (int j = 0; j < sorted.Length - 1; j++)
                 {
@@ -57,6 +53,9 @@ namespace SortingVisualizer
                         sorted[j + 1] = sorted[j];
                         sorted[j] = temp;
 
+
+                        //ANIMATION PART
+
                         //Set elements in rectangle array
                         CustomRect current = (CustomRect)rectangles[j];
                         CustomRect next = (CustomRect)rectangles[j + 1];
@@ -64,27 +63,23 @@ namespace SortingVisualizer
                         //rectangles[j] = rectangles[j+1];
 
                         rectangles[j] = new CustomRect(current.x, current.y, current.width, next.height, red );
-
                         rectangles[j+1] = new CustomRect(next.x, next.y, next.width, current.height, red);
 
-                        //g.Clear(Color.White);
-
                         RenderArray(sender, e, rectangles);
-
                         ResetColor((CustomRect) rectangles[j], (CustomRect) rectangles[j+1]);
-
                         RenderArray(sender, e, rectangles);
 
                     }
                 }
             }
-            
+
             g.Clear(Color.White);
             RenderArray(sender, e, rectangles);
-            
 
         }
 
+
+        //THIS IS VERY UGLY
         public static void ResetColor(CustomRect customRect1, CustomRect customRect2)
         {
             customRect1.setBrush(black);
@@ -93,9 +88,9 @@ namespace SortingVisualizer
 
         public static void ArrayInitializer(object sender, PaintEventArgs e, int[] array)
         {
-            var p = sender as Panel;
             Graphics g = e.Graphics;
 
+            //Magic Math to make drawings pretty
             x = (100 / Form1.SIZE) * 2;
             w = (100 / array.Length) * 3;
             distance = x * 2;
@@ -110,6 +105,8 @@ namespace SortingVisualizer
             //reset x
             x = (100 / Form1.SIZE) * 2;
 
+
+            //Redraw the rectangles
             foreach (CustomRect rect in rectangles)
             {
                 g.FillRectangle(rect.brush, rect.x, rect.y, rect.width, rect.height);
@@ -118,17 +115,11 @@ namespace SortingVisualizer
 
         public static void RenderArray(object sender, PaintEventArgs e, ArrayList list)
         {
-            var p = sender as Panel;
-            //p.Invalidate();
-
             Graphics g = e.Graphics;
-
-            //System.Threading.Thread.Sleep(SPEED);
 
             for (int i = 0; i < list.Count; i++)
             {
                 CustomRect prova = (CustomRect)list[i];
-                
                 g.FillRectangle(prova.brush, prova.x, prova.y, prova.width, prova.height);
             }
         }
@@ -140,7 +131,6 @@ namespace SortingVisualizer
             Graphics g = e.Graphics;
             int j;
 
-
             for(int i = 1; i < array.Length; i++)
             {
                 int value = array[i];
@@ -149,6 +139,9 @@ namespace SortingVisualizer
                     int temp = array[j + 1];
                     array[j + 1] = array[j];
                     array[j] = temp;
+
+
+                    //ANIMATION
 
                     //Set elements in rectangle array
                     CustomRect current = (CustomRect)rectangles[j];
