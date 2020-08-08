@@ -67,6 +67,7 @@ namespace SortingVisualizer
                 InitializeArray();
                 initialized = true;
             }
+
             if(bubble)
                 DrawingAlgorithms.BubbleSortAnimation(sender, e, array);
             else if(insertion)
@@ -95,6 +96,16 @@ namespace SortingVisualizer
             SIZE = trackBar1.Value;
             InitializeArray();
             this.Refresh();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //Let's reorder the array
+            insertion = true;
+            //Redraw panel
+            this.Refresh();
+            //Rest the boolean
+            insertion = false;
         }
     }
 }

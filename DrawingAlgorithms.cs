@@ -8,12 +8,14 @@ namespace SortingVisualizer
 {
     class DrawingAlgorithms
     {
-
+        //Calculate automatically position based on elements in array
         public static int x = (100 / Form1.SIZE) * 2;
         public static int y = 10;
         //Calculate automatically width based on elements in array
         public static int w = (100 / Form1.SIZE) * 3;
         public static int distance = x * 2;
+
+        public static int SPEED = (100 / Form1.SIZE) * 5;
 
 
         public static SolidBrush black = new SolidBrush(Color.Black);
@@ -39,7 +41,7 @@ namespace SortingVisualizer
             int temp = 0;
 
             g.Clear(Color.White);
-            RenderArray(sender, e);
+            RenderArray(sender, e, rectangles);
 
             for (int i = 0; i < sorted.Length; i++)
             {
@@ -67,28 +69,18 @@ namespace SortingVisualizer
 
                         //g.Clear(Color.White);
 
-                        RenderArray(sender, e);
+                        RenderArray(sender, e, rectangles);
 
                         ResetColor((CustomRect) rectangles[j], (CustomRect) rectangles[j+1]);
 
-                        RenderArray(sender, e);
+                        RenderArray(sender, e, rectangles);
 
                     }
-                    /*
-                    else
-                    {
-                        g.Clear(Color.White);
-                        RenderArray(sender, e);
-                    }
-                    */
                 }
-                x = (100 / Form1.SIZE) * 2;
             }
-
-            x = (100 / Form1.SIZE) * 2;
             
             g.Clear(Color.White);
-            RenderArray(sender, e);
+            RenderArray(sender, e, rectangles);
             
 
         }
@@ -124,18 +116,18 @@ namespace SortingVisualizer
             }
         }
 
-        public static void RenderArray(object sender, PaintEventArgs e)
+        public static void RenderArray(object sender, PaintEventArgs e, ArrayList list)
         {
             var p = sender as Panel;
             //p.Invalidate();
 
             Graphics g = e.Graphics;
 
-            System.Threading.Thread.Sleep(20);
+            //System.Threading.Thread.Sleep(SPEED);
 
-            for (int i = 0; i < rectangles.Count; i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                CustomRect prova = (CustomRect)rectangles[i];
+                CustomRect prova = (CustomRect)list[i];
                 
                 g.FillRectangle(prova.brush, prova.x, prova.y, prova.width, prova.height);
             }
@@ -143,7 +135,42 @@ namespace SortingVisualizer
 
         internal static void InsertionSortAnimation(object sender, PaintEventArgs e, int[] array)
         {
-            throw new NotImplementedException();
+
+            var p = sender as Panel;
+            Graphics g = e.Graphics;
+            int j;
+
+
+            for(int i = 1; i < array.Length; i++)
+            {
+                int value = array[i];
+                for(j = i-1;  j>=0 && array[j] > value; j--)
+                {
+                    int temp = array[j + 1];
+                    array[j + 1] = array[j];
+                    array[j] = temp;
+
+                    //Set elements in rectangle array
+                    CustomRect current = (CustomRect)rectangles[j];
+                    CustomRect next = (CustomRect)rectangles[j + 1];
+
+                    rectangles[j] = new CustomRect(current.x, current.y, current.width, next.height, red);
+
+                    rectangles[j + 1] = new CustomRect(next.x, next.y, next.width, current.height, red);
+
+                    g.Clear(Color.White);
+                    RenderArray(sender, e, rectangles);
+
+                    ResetColor((CustomRect)rectangles[j], (CustomRect)rectangles[j + 1]);
+
+                    RenderArray(sender, e, rectangles);
+                }
+
+                array[j + 1] = value;
+
+                g.Clear(Color.White);
+                RenderArray(sender, e, rectangles);
+            }
         }
     }
 }
