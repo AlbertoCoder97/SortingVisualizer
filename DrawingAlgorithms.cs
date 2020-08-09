@@ -15,8 +15,6 @@ namespace SortingVisualizer
         public static int w = (100 / Form1.SIZE) * 3;
         public static int distance = x * 2;
 
-        public static int SPEED = (100 / Form1.SIZE) * 5;
-
 
         public static SolidBrush black = new SolidBrush(Color.Black);
         public static SolidBrush red = new SolidBrush(Color.Red);
@@ -28,10 +26,6 @@ namespace SortingVisualizer
         {
             SolidBrush brush = new SolidBrush(Color.Black);
             Graphics g = e.Graphics;
-
-            //Graphical values for distance and X position
-            x = (100 / Form1.SIZE) * 2;
-            distance = x * 2;
 
             //Let's copy the array so that the original one can still be accessed and doesn't get modified.
             int[] sorted = array;
@@ -79,7 +73,7 @@ namespace SortingVisualizer
         }
 
 
-        //THIS IS VERY UGLY
+        //THIS IS VERY UGLY BUT APPARENTLY NECESSARY
         public static void ResetColor(CustomRect customRect1, CustomRect customRect2)
         {
             customRect1.setBrush(black);
@@ -89,11 +83,6 @@ namespace SortingVisualizer
         public static void ArrayInitializer(object sender, PaintEventArgs e, int[] array)
         {
             Graphics g = e.Graphics;
-
-            //Magic Math to make drawings pretty
-            x = (100 / Form1.SIZE) * 2;
-            w = (100 / array.Length) * 3;
-            distance = x * 2;
 
             //Initialize Rect arrays
             for (int i = 0; i < array.Length; i++)

@@ -94,6 +94,12 @@ namespace SortingVisualizer
             DrawingAlgorithms.rectangles.Clear();
 
             SIZE = trackBar1.Value;
+
+            //Magic Math to make drawings pretty
+            DrawingAlgorithms.x = (100 / SIZE) * 2;
+            DrawingAlgorithms.w = (100 / SIZE) * 3;
+            DrawingAlgorithms.distance = DrawingAlgorithms.x * 2;
+
             InitializeArray();
             this.Refresh();
         }
