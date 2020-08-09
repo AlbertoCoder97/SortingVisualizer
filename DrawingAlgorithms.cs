@@ -32,7 +32,7 @@ namespace SortingVisualizer
             int temp = 0;
 
             g.Clear(Color.White);
-            RenderArray(sender, e, rectangles);
+            RenderArray(e, rectangles);
 
             for (int i = 0; i < sorted.Length; i++)
             {
@@ -59,57 +59,47 @@ namespace SortingVisualizer
                         rectangles[j] = new CustomRect(current.x, current.y, current.width, next.height, red );
                         rectangles[j+1] = new CustomRect(next.x, next.y, next.width, current.height, red);
 
-                        RenderArray(sender, e, rectangles);
+                        RenderArray(e, rectangles);
                         ResetColor((CustomRect) rectangles[j], (CustomRect) rectangles[j+1]);
-                        RenderArray(sender, e, rectangles);
+                        RenderArray(e, rectangles);
 
                     }
                 }
             }
 
             g.Clear(Color.White);
-            RenderArray(sender, e, rectangles);
+            RenderArray(e, rectangles);
 
         }
 
-
-        //THIS IS VERY UGLY BUT APPARENTLY NECESSARY
-        public static void ResetColor(CustomRect customRect1, CustomRect customRect2)
+        internal static void QuickSortAnimation(object sender, PaintEventArgs e, int[] array)
         {
-            customRect1.setBrush(black);
-            customRect2.setBrush(black);
-        }
+            int startIndex = 0;
+            int endIndex = array.Length - 1;
+            int top = -1;
+            int[] stack = new int[array.Length];
 
-        public static void ArrayInitializer(object sender, PaintEventArgs e, int[] array)
-        {
-            Graphics g = e.Graphics;
+            stack[++top] = startIndex;
+            stack[++top] = endIndex;
 
-            //Initialize Rect arrays
-            for (int i = 0; i < array.Length; i++)
+            while (top >= 0)
             {
-                rectangles.Add(new CustomRect(x, y, w, (array[i])*2, black));
-                x += distance;
-            }
+                endIndex = stack[top--];
+                startIndex = stack[top--];
 
-            //reset x
-            x = (100 / Form1.SIZE) * 2;
+                int p = Partition(ref array, startIndex, endIndex, e);
 
+                if (p - 1 > startIndex)
+                {
+                    stack[++top] = startIndex;
+                    stack[++top] = p - 1;
+                }
 
-            //Redraw the rectangles
-            foreach (CustomRect rect in rectangles)
-            {
-                g.FillRectangle(rect.brush, rect.x, rect.y, rect.width, rect.height);
-            }
-        }
-
-        public static void RenderArray(object sender, PaintEventArgs e, ArrayList list)
-        {
-            Graphics g = e.Graphics;
-
-            for (int i = 0; i < list.Count; i++)
-            {
-                CustomRect prova = (CustomRect)list[i];
-                g.FillRectangle(prova.brush, prova.x, prova.y, prova.width, prova.height);
+                if (p + 1 < endIndex)
+                {
+                    stack[++top] = p + 1;
+                    stack[++top] = endIndex;
+                }
             }
         }
 
@@ -141,18 +131,116 @@ namespace SortingVisualizer
                     rectangles[j + 1] = new CustomRect(next.x, next.y, next.width, current.height, red);
 
                     g.Clear(Color.White);
-                    RenderArray(sender, e, rectangles);
+                    RenderArray(e, rectangles);
 
                     ResetColor((CustomRect)rectangles[j], (CustomRect)rectangles[j + 1]);
 
-                    RenderArray(sender, e, rectangles);
+                    RenderArray(e, rectangles);
                 }
 
                 array[j + 1] = value;
 
                 g.Clear(Color.White);
-                RenderArray(sender, e, rectangles);
+                RenderArray(e, rectangles);
             }
+        }
+
+        public static void ArrayInitializer(object sender, PaintEventArgs e, int[] array)
+        {
+            Graphics g = e.Graphics;
+
+            //Initialize Rect arrays
+            for (int i = 0; i < array.Length; i++)
+            {
+                rectangles.Add(new CustomRect(x, y, w, (array[i]) * 2, black));
+                x += distance;
+            }
+
+            //reset x
+            x = (100 / Form1.SIZE) * 2;
+
+
+            //Redraw the rectangles
+            foreach (CustomRect rect in rectangles)
+            {
+                g.FillRectangle(rect.brush, rect.x, rect.y, rect.width, rect.height);
+            }
+        }
+
+        public static void RenderArray(PaintEventArgs e, ArrayList list)
+        {
+            Graphics g = e.Graphics;
+            for (int i = 0; i < list.Count; i++)
+            {
+                CustomRect temp = (CustomRect)list[i];
+                g.FillRectangle(temp.brush, temp.x, temp.y, temp.width, temp.height);
+            }
+        }
+
+        //THIS IS VERY UGLY BUT APPARENTLY NECESSARY
+        public static void ResetColor(CustomRect customRect1, CustomRect customRect2)
+        {
+            customRect1.setBrush(black);
+            customRect2.setBrush(black);
+        }
+
+
+        private static int Partition(ref int[] array, int left, int right, PaintEventArgs e)
+        {
+
+            Graphics g = e.Graphics;
+
+            int x = array[right];
+            int i = (left - 1);
+            for (int j = left; j <= right - 1; ++j)
+            {
+                g.Clear(Color.White);
+                if (array[j] <= x)
+                {
+                    ++i;
+                    Swap(ref array[i], ref array[j]);
+
+                    //ANIMATION PART
+                    g.Clear(Color.White);
+                    //Set elements in rectangle array
+                    CustomRect current2 = (CustomRect)rectangles[i];
+                    CustomRect next2 = (CustomRect)rectangles[j];
+
+                    //rectangles[j] = rectangles[j+1];
+
+                    rectangles[i] = new CustomRect(current2.x, current2.y, current2.width, next2.height, red);
+                    rectangles[j] = new CustomRect(next2.x, next2.y, next2.width, current2.height, red);
+
+                    RenderArray(e, rectangles);
+                    ResetColor((CustomRect)rectangles[i], (CustomRect)rectangles[j]);
+                    RenderArray(e, rectangles);
+                }
+            }
+
+            Swap(ref array[i + 1], ref array[right]);
+
+            //ANIMATION PART
+            //Set elements in rectangle array
+            CustomRect current = (CustomRect)rectangles[i + 1];
+            CustomRect next = (CustomRect)rectangles[right];
+
+            //rectangles[j] = rectangles[j+1];
+
+            rectangles[i + 1] = new CustomRect(current.x, current.y, current.width, next.height, red);
+            rectangles[right] = new CustomRect(next.x, next.y, next.width, current.height, red);
+
+            RenderArray(e, rectangles);
+            ResetColor((CustomRect)rectangles[i + 1], (CustomRect)rectangles[right]);
+            RenderArray(e, rectangles);
+
+            return (i + 1);
+        }
+
+        private static void Swap(ref int a, ref int b)
+        {
+            int temp = a;
+            a = b;
+            b = temp;
         }
     }
 }

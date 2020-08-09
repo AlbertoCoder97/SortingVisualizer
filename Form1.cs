@@ -26,6 +26,7 @@ namespace SortingVisualizer
 
         public static bool bubble = false;
         public static bool insertion = false;
+        public static bool quick = false;
         public static bool initialized = false;
 
 
@@ -68,10 +69,12 @@ namespace SortingVisualizer
                 initialized = true;
             }
 
-            if(bubble)
+            if (bubble)
                 DrawingAlgorithms.BubbleSortAnimation(sender, e, array);
-            else if(insertion)
+            else if (insertion)
                 DrawingAlgorithms.InsertionSortAnimation(sender, e, array);
+            else if (quick)
+                DrawingAlgorithms.QuickSortAnimation(sender, e, array);
             else
                 DrawingAlgorithms.ArrayInitializer(sender, e, array);
         }
@@ -112,6 +115,16 @@ namespace SortingVisualizer
             this.Refresh();
             //Rest the boolean
             insertion = false;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //Let's reorder the array
+            quick = true;
+            //Redraw panel
+            this.Refresh();
+            //Rest the boolean
+            quick = false;
         }
     }
 }
